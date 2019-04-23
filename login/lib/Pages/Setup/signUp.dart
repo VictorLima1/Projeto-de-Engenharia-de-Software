@@ -22,39 +22,88 @@ class _SignUpState extends State<SignUp> {
     ));
 
      return new Scaffold(
-      appBar: new AppBar(),
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        brightness: Brightness.light,
+        title: Text('Cadastro', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+        ),
+      ),
+
+      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
+        /*color: Colors.white,
+        padding: new EdgeInsets.only(left: 50, right: 50),*/
         child: Column(
           children: <Widget>[
-            TextFormField(
-              validator: (input) {
-                if(input.isEmpty){
-                  return 'Provide an email';
-                }
-              },
-              decoration: InputDecoration(
-                labelText: 'Email'
-              ),
-              onSaved: (input) => _email = input,
+            Padding(
+              padding: EdgeInsets.only(top: 50, bottom: 30),
+              child: Icon(
+                Icons.person_pin_circle,
+                size: 200,
+                color: Color.fromARGB(255, 255, 111, 97),
+                )
             ),
-            TextFormField(
-              validator: (input) {
-                if(input.length < 6){
-                  return 'Longer password please';
-                }
-              },
-              decoration: InputDecoration(
-                labelText: 'Password'
+
+            Padding(
+              padding: EdgeInsets.only(bottom: 15, left: 50, right: 50),
+              child: TextFormField(
+                validator: (input) {
+                  if(input.isEmpty){
+                    return 'Preencha um e-mail';
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: 'E-mail',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 255, 111, 97))),
+                  border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    //borderSide: new BorderSide(),
+                  )
+                ),
+                onSaved: (input) => _email = input,
+                
               ),
-              onSaved: (input) => _password = input,
-              obscureText: true,
             ),
-            FlatButton(
+
+            Padding(
+              padding: EdgeInsets.only(bottom: 30, left: 50, right: 50),
+              child: TextFormField(
+                validator: (input) {
+                  if(input.length < 6){
+                    return 'Sua senha precisa ter pelo menos 6 caracteres';
+                  }
+                },
+                decoration: InputDecoration(
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: Colors.grey),
+                fillColor: Colors.white,
+                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 255, 111, 97))),
+                  border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    //borderSide: new BorderSide(),
+                  )
+              ),
+                onSaved: (input) => _password = input,
+                obscureText: true,
+              ),
+            ),
+            
+            OutlineButton(
               onPressed: signUp,
-              child: Text('Sign up'),
-              color: Color.fromARGB(255, 255, 111, 97),
-              textColor: Colors.white,
+              child: Text('Realizar cadastro'),
+              textColor: Color.fromARGB(255, 255, 111, 97),
+              borderSide: BorderSide(color: Color.fromARGB(255, 255, 111, 97)),
+              highlightedBorderColor: Color.fromARGB(255, 255, 111, 97),
+              shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+              /*color: Color.fromARGB(255, 255, 111, 97),
+              textColor: Colors.white,*/
             ),
           ],
         )

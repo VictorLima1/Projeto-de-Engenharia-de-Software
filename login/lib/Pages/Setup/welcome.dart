@@ -7,6 +7,7 @@ import 'package:login/Pages/Setup/signUp.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:speech_bubble/speech_bubble.dart';
 
 
 
@@ -19,9 +20,11 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Completer<GoogleMapController> _controller = Completer();
 
+
   Location location = new Location();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
+    
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
@@ -39,17 +42,45 @@ class _WelcomePageState extends State<WelcomePage> {
         brightness: Brightness.light,
         title: Text('iWay', style: TextStyle(color: Colors.black),),
         backgroundColor: Colors.white,
-        elevation: 0.0
+        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search, color: Color.fromARGB(255, 255, 111, 97),),
+            onPressed: (){
+              
+            },
+          )
+        ],
         //backgroundColor: Colors.white,
       ),
+
 
       bottomNavigationBar: BottomNavyBar( 
         onItemSelected: (index) => setState(() {
         if(index == 0)
           Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())); 
 
-        if(index == 1)   
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp(), fullscreenDialog: true));
+        if(index == 3){
+          showDialog(
+            context: context,
+            builder: (BuildContext conext){
+              return AlertDialog(
+                content: new Text("Deseja realmente sair?"),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text("Sair"),
+                    color: Color.fromARGB(255, 255, 111, 97),
+                    textColor: Colors.white,
+                    onPressed: (){
+                      SystemNavigator.pop();
+                    } 
+                  )
+                ],
+              );
+            }
+          );
+        }
+          
         }),
         items: [
           BottomNavyBarItem(
@@ -58,31 +89,39 @@ class _WelcomePageState extends State<WelcomePage> {
             activeColor: Color.fromARGB(255, 255, 111, 97),
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.person_add),
-            title: Text('Erro'),
+            icon: Icon(Icons.settings),
+            title: Text('Opções'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.email),
             title: Text('Opções'),
+            activeColor: Color.fromARGB(255, 255, 111, 97),
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.arrow_back),
+            title: Text('Sair'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
           ),
         ],
       ),
 
-      body: GoogleMap(
-        mapType: MapType.terrain,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        myLocationEnabled: true,
+      body: Container(
+        child: GoogleMap(
+          mapType: MapType.terrain,
+          initialCameraPosition: _kGooglePlex,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          myLocationEnabled: true,
+        ),        
       ),
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
         label: Text('Onde estou?'),
         icon: Icon(Icons.home),
+        backgroundColor: Color.fromARGB(255, 255, 111, 97),
       ),
     );
   }
