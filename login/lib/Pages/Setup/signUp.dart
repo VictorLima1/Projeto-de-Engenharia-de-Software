@@ -21,113 +21,43 @@ class _SignUpState extends State<SignUp> {
     
     ));
 
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign up')
-      ),
-
-      body: Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
+     return new Scaffold(
+      appBar: new AppBar(),
+      body: Form(
         key: _formKey,
-        child: Stack(
+        child: Column(
           children: <Widget>[
-            Image.asset(
-              "images/background.jpg",
-              width: double.maxFinite,
-              height: 335,
-            ),
-
-            Positioned(
-              top: 245,
-              child: Container(
-                padding: EdgeInsets.all(40),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15)
-                  )
-                ),
-
-
-
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      validator: (input) {
-                        if(input.isEmpty){
-                          return 'Please type and e-mail';
-                        }
-                      },
-                      onSaved: (input) => _email = input,
-                      decoration: InputDecoration(
-                        labelText: 'E-mail'
-                      ),
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.only(top: 16, bottom: 62),
-                      child: TextFormField(
-                        validator: (input) {
-                          if(input.length < 6){
-                            return 'Your password needs to be longer';
-                          }
-                        },
-                        onSaved: (input) => _password = input,
-                        decoration: InputDecoration(
-                          labelText: 'Password'
-                        ),
-                        obscureText: true,
-                      )
-                    ),
-
-                    Container(
-                      height: 45,
-                      width: double.maxFinite,
-                      child: RaisedButton(
-                        onPressed: signUp,
-                        child: Text('Sign up'),
-                        )
-                    ),
-
-
-
-                  ]
-                )
-              ),
-            ),
-/*
             TextFormField(
               validator: (input) {
                 if(input.isEmpty){
-                  return 'Please type and e-mail';
+                  return 'Provide an email';
                 }
               },
-              onSaved: (input) => _email = input,
               decoration: InputDecoration(
-                labelText: 'E-mail'
+                labelText: 'Email'
               ),
+              onSaved: (input) => _email = input,
             ),
-
             TextFormField(
               validator: (input) {
                 if(input.length < 6){
-                  return 'Your password needs to be longer';
+                  return 'Longer password please';
                 }
               },
-              onSaved: (input) => _password = input,
               decoration: InputDecoration(
                 labelText: 'Password'
               ),
+              onSaved: (input) => _password = input,
               obscureText: true,
-            ),*/
-            
+            ),
+            FlatButton(
+              onPressed: signUp,
+              child: Text('Sign up'),
+              color: Color.fromARGB(255, 255, 111, 97),
+              textColor: Colors.white,
+            ),
           ],
-        ),
+        )
       ),
     );
   }
@@ -147,7 +77,8 @@ class _SignUpState extends State<SignUp> {
       }catch(e){
         print(e.message);
       }
-      
     }
+      
+    
   }
 }

@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:login/Pages/Setup/welcome.dart';
 import 'package:login/Pages/home.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,9 +16,17 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+        //statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light
+    ));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign in'),
+        brightness: Brightness.light,
+        title: Text('Login', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        elevation: 0.0
       ),
 
       body: Form(
@@ -46,9 +57,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
             ),
-            RaisedButton(
-              onPressed: signIn,
-              child: Text('Sign in'),
+            FlatButton(
+              onPressed: signIn, 
+              child: Text("Login"),
+              color: Color.fromARGB(255, 255, 111, 97),
+              textColor: Colors.white,
             )
           ],
         ),
@@ -63,7 +76,8 @@ class _LoginPageState extends State<LoginPage> {
       formState.save();
       try{
         FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(user: user)));
+        Navigator.pop(context);
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
       }catch(e){
         print(e.message);
       }
