@@ -7,9 +7,6 @@ import 'package:login/Pages/Setup/signUp.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:speech_bubble/speech_bubble.dart';
-
-
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -34,10 +31,14 @@ class _WelcomePageState extends State<WelcomePage> {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.transparent,
         //statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return Scaffold(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
         title: Text('iWay', style: TextStyle(color: Colors.black),),
@@ -49,7 +50,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onPressed: (){
               
             },
-          )
+          ),
         ],
         //backgroundColor: Colors.white,
       ),
@@ -87,34 +88,33 @@ class _WelcomePageState extends State<WelcomePage> {
             icon: Icon(Icons.person),
             title: Text('Login'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
+            inactiveColor: Colors.grey,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.settings),
             title: Text('Opções'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
+            inactiveColor: Colors.grey,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.email),
             title: Text('Opções'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
+            inactiveColor: Colors.grey,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.arrow_back),
             title: Text('Sair'),
             activeColor: Color.fromARGB(255, 255, 111, 97),
+            inactiveColor: Colors.grey,
           ),
         ],
       ),
 
-      body: Container(
-        child: GoogleMap(
-          mapType: MapType.terrain,
-          initialCameraPosition: _kGooglePlex,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          myLocationEnabled: true,
-        ),        
+      body: Stack(
+        children: <Widget>[
+          _googleMap(context), 
+        ],          
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -123,7 +123,20 @@ class _WelcomePageState extends State<WelcomePage> {
         icon: Icon(Icons.home),
         backgroundColor: Color.fromARGB(255, 255, 111, 97),
       ),
+    ),
+
     );
+  }
+
+  Widget _googleMap(BuildContext context){
+    return GoogleMap(
+      mapType: MapType.terrain,
+          initialCameraPosition: _kGooglePlex,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          myLocationEnabled: true
+        );
   }
 
   Future<void> _goToTheLake() async {
@@ -138,6 +151,7 @@ class _WelcomePageState extends State<WelcomePage> {
       )
     );
   }
+
 
   void navigateToSignIn(){
     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(), fullscreenDialog: true));
